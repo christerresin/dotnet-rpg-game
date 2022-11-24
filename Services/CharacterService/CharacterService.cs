@@ -31,6 +31,24 @@ namespace dotnet_rpg.Services.CharacterService
       return serviceResponse;
     }
 
+    public async Task<ServiceResponse<GetCharacterDto>> DeleteCharacter(int id)
+    {
+      ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
+
+      try
+      {
+        Character character = characters.FirstOrDefault(c => c.Id == id);
+        characters.Remove(character);
+        serviceResponse.Data = mapper.Map<GetCharacterDto>(character);
+      }
+      catch (Exception ex)
+      {
+        serviceResponse.Success = false;
+        serviceResponse.Message = ex.Message;
+      }
+      return serviceResponse;
+    }
+
     public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
     {
       return new ServiceResponse<List<GetCharacterDto>>
@@ -55,13 +73,12 @@ namespace dotnet_rpg.Services.CharacterService
       {
         Character character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
 
-        mapper.Map(updatedCharacter, character);
-        // character.Name = updatedCharacter.Name;
-        // character.HitPoints = updatedCharacter.HitPoints;
-        // character.Strength = updatedCharacter.Strength;
-        // character.Defense = updatedCharacter.Defense;
-        // character.Intelligence = updatedCharacter.Intelligence;
-        // character.Class = updatedCharacter.Class;
+        character.Name = updatedCharacter.Name;
+        character.HitPoints = updatedCharacter.HitPoints;
+        character.Strength = updatedCharacter.Strength;
+        character.Defense = updatedCharacter.Defense;
+        character.Intelligence = updatedCharacter.Intelligence;
+        character.Class = updatedCharacter.Class;
 
         serviceResponse.Data = mapper.Map<GetCharacterDto>(character);
       }
