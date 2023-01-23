@@ -22,7 +22,7 @@ namespace dotnet_rpg.Controllers
     [HttpPost("register")]
     public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto request)
     {
-      var response = await authRepository.Register(new Models.User { Username = request.Username }, request.Password);
+      var response = await authRepository.Register(new User { Username = request.Username }, request.Password);
       if (!response.Success)
       {
         return BadRequest(response);
